@@ -3,18 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
     <title>Berliner-LuftCheck</title>
 </head>
 <body>
     <section id="Login_Section">
-
+        <h1>Berliner-LuftCheck</h1>
+        <form action="">
+            <input type="text" id="username" placeholder="Benutzername" required>
+            <br>
+            <input type="password" id="password" placeholder="Passwort" required>
+            <br>
+            <button type="submit">Login</button>
+        </form>
     </section>
+    <br>
     <section id="Main_Section">
 
     </section>
+    <br>
     <section id="Add_Section">
-
+        <form action="">
+            <input type="text" id="add_title" placeholder="Titel" required>
+            <br>
+            <input type="text" id="add_description" placeholder="Beschreibung" required>
+            <br>
+            <input type="text" id="add_street" placeholder="Straße" required>
+            <br>
+            <input type="number" id="add_PLZ" placeholder="PLZ" required>
+            <br>
+            <input type="text" id="add_city" value="Berlin" required readonly>
+            <br>
+            <input type="text" id="add_lat" placeholder="Lat." required>
+            <br>
+            <input type="text" id="add_lon" placeholder="Lon." required>
+            <br>
+            <label for="category">Kategorie</label>
+            <select id="category" name="category">          <!-- TODO: richtige Kategorien hinzufügen -->
+                <option value="Option 1">Option 1</option>
+                <option value="Option 2">Option 2</option>
+                <option value="Option 3">Option 3</option>
+                <option value="Option 4">Option 4</option>
+            </select>
+            <br>
+            <label for="add_image">Bild</label>
+            <input type="file" id="add_image" accept="image/*">
+            <br>
+            <button type="submit">Save/Submit</button>
+            <button id="add_cancel">Cancel</button>
+        </form>
     </section>
+    <br>
     <section id="Update_Section">
 
     </section>
