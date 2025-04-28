@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <title>Berliner-LuftCheck</title>
 </head>
+
 <body>
     <section id="Login_Section">
         <h1>Berliner-LuftCheck</h1>
@@ -19,7 +21,39 @@
     </section>
     <br>
     <section id="Main_Section">
-
+        <h2>Welcome {user} to Berliner LuftCheck</h2>
+        <div>
+            <h3>Radweg endet abrupt</h3>
+            <p>Radweg endet abrupt und ohne Vorwarnung</p>
+            <p>Straße: Willheminenshof 75</p>
+            <p>PLZ: 10657</p>
+            <p>Stadt Berlin</p>
+            <p>Lat: 52.45634</p>
+            <p>Lon: 18.3213</p>
+            <img src="Bucket/1.png" alt="image 1">
+        </div>
+        <div>
+            <h3>Abweichung wegen Baustellen</h3>
+            <p>Baustelle verändert Radweg</p>
+            <p>Straße: Treskowalle 12</p>
+            <p>PLZ: 12657</p>
+            <p>Stadt: Berlin</p>
+            <p>Lat: 56.3453</p>
+            <p>Lon: 16.5213</p>
+            <img src="Bucket/2.png" alt="image 2">
+        </div>
+        <div>
+            <h3>Spitze Abweichungswinkel</h3>
+            <p>gefährlicher Winkel im Weg</p>
+            <p>Straße: Treskowalle 19</p>
+            <p>PLZ: 12657</p>
+            <p>Stadt: Berlin</p>
+            <p>Lat: 56.3453</p>
+            <p>Lon: 17.5213</p>
+            <img src="Bucket/3.png" alt="image 3">
+        </div>
+        <button>Add</button>
+        <button>Logout</button>
     </section>
     <br>
     <section id="Add_Section">
@@ -58,7 +92,33 @@
     </section>
     <br>
     <section id="Update_Section">
+        <form action="">
+            <input type="text" placeholder="Titel">
+            <input type="text" placeholder="Beschreibung">
+            <input type="text" placeholder="Straße">
+            <input type="text" placeholder="PLZ">
+            <input type="text" placeholder="Stadt">
+            <input type="text" placeholder="Lat.">
+            <input type="text" placeholder="Lon.">
+            <Label for="category">Kategorien</Label>
+            <select name="category">
+                <option value="radweg">Radweg</option>
+                <option value="parkplaetze">P. & R. Parkplätze</option>
+                <option value="oeffis">Öffis</option>
+                <option value="verschmutzung_oeff">Verschmutzung v. öff. Plätzen</option>
+                <option value="baustellen">Baustellen</option>
+                <option value="transport_sharing">Sharing von Transportmitteln</option>
+                <option value="luftverschmutzung">Luftverschmutzung</option>
+            </select>
+            <label for="add_image">Bild</label>
+            <input type="file" id="add_image" accept="image/*">
+            <br>
+            <button type="submit">Update</button>
+            <button id="update_delete">Delete</button>
+            <button id="update_cancel">Cancel</button>
+        </form>
 
     </section>
 </body>
+
 </html>
