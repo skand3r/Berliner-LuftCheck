@@ -94,12 +94,19 @@
     <section id="Update_Section">
         <form action="">
             <input type="text" placeholder="Titel">
+            <br>
             <input type="text" placeholder="Beschreibung">
+            <br>
             <input type="text" placeholder="Straße">
+            <br>
             <input type="text" placeholder="PLZ">
-            <input type="text" placeholder="Stadt">
+            <br>
+            <input type="text" placeholder="Stadt" value="Berlin" required readonly>
+            <br>
             <input type="text" placeholder="Lat.">
+            <br>
             <input type="text" placeholder="Lon.">
+            <br>
             <Label for="category">Kategorien</Label>
             <select name="category">
                 <option value="radweg">Radweg</option>
@@ -110,6 +117,7 @@
                 <option value="transport_sharing">Sharing von Transportmitteln</option>
                 <option value="luftverschmutzung">Luftverschmutzung</option>
             </select>
+            <br>
             <label for="add_image">Bild</label>
             <input type="file" id="add_image" accept="image/*">
             <br>
