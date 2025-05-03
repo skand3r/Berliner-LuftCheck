@@ -9,14 +9,14 @@
 </head>
 
 <body>
+    <h1>Berliner LuftCheck</h1>
     <section id="Login_Section">
-        <h1>Berliner LuftCheck</h1>
         <form action="">
             <input type="text" id="username" placeholder="Benutzername" required>
             <br>
             <input type="password" id="password" placeholder="Passwort" required>
             <br>
-            <button type="submit">Login</button>
+            <button class="btn-1" type="submit">Login</button>
         </form>
     </section>
     <br>
@@ -26,42 +26,44 @@
             <li>
                 <h3>Radweg endet abrupt</h3>
                 <p>Radweg endet abrupt und ohne Vorwarnung</p>
-                <p>Straße: Willheminenshof 75</p>
-                <p>PLZ: 10657</p>
-                <p>Stadt Berlin</p>
-                <p>Lat: 52.45634</p>
-                <p>Lon: 18.3213</p>
-                <p>Kategorie: Radweg</p>
+                <p><b>Straße:</b> Willheminenshof 75</p>
+                <p><b>PLZ:</b> 10657</p>
+                <p><b>Stadt:</b> Berlin</p>
+                <p><b>Lat:</b> 52.45634</p>
+                <p><b>Lon:</b> 18.3213</p>
+                <p><b>Kategorie:</b> Radweg</p>
                 <img src="Bucket/1.png" alt="image 1">
             </li>
             <li>
                 <h3>Abweichung wegen Baustellen</h3>
                 <p>Baustelle verändert Radweg</p>
-                <p>Straße: Treskowalle 12</p>
-                <p>PLZ: 12657</p>
-                <p>Stadt: Berlin</p>
-                <p>Lat: 56.3453</p>
-                <p>Lon: 16.5213</p>
-                <p>Kategorie: Baustellen</p>
+                <p><b>Straße:</b> Treskowalle 12</p>
+                <p><b>PLZ:</b> 12657</p>
+                <p><b>Stadt:</b> Berlin</p>
+                <p><b>Lat:</b> 56.3453</p>
+                <p><b>Lon:</b> 16.5213</p>
+                <p><b>Kategorie:</b> Baustellen</p>
                 <img src="Bucket/2.png" alt="image 2">
             </li>
             <li>
                 <h3>Spitze Abweichungswinkel</h3>
                 <p>gefährlicher Winkel im Weg</p>
-                <p>Straße: Treskowalle 19</p>
-                <p>PLZ: 12657</p>
-                <p>Stadt: Berlin</p>
-                <p>Lat: 56.3453</p>
-                <p>Lon: 17.5213</p>
-                <p>Kategorie: Radweg</p>
-                <img src="" alt="image 3">
+                <p><b><b>Straße:</b></b> Treskowalle 19</p>
+                <p><b>PLZ:</b> 12657</p>
+                <p><b>Stadt:</b> Berlin</p>
+                <p><b>Lat:</b> 56.3453</p>
+                <p><b>Lon:</b> 17.5213</p>
+                <p><b>Kategorie:</b> Radweg</p>
             </li>
         </ul>
-        <button>Add</button>
-        <button>Logout</button>
+        <div class="buttons">
+            <button class="btn-1">Add</button>
+            <button class="btn-2">Logout</button>
+        </div>
     </section>
     <br>
     <section id="Add_Section">
+        <h2>Etwas nicht in Ordnung? Hier kannst du es melden</h2>
         <form action="">
             <input type="text" id="add_title" placeholder="Titel" required>
             <br>
@@ -91,12 +93,13 @@
             <label for="add_image">Bild</label>
             <input type="file" id="add_image" accept="image/*">
             <br>
-            <button type="submit">Save/Submit</button>
-            <button id="add_cancel">Cancel</button>
+            <button class="btn-1" type="submit">Save/Submit</button>
+            <button class="btn-2" id="add_cancel">Cancel</button>
         </form>
     </section>
     <br>
     <section id="Update_Section">
+        <h2>Update nötig? Hier ändern</h2>
         <form action="">
             <input type="text" placeholder="Titel" value="Radweg endet abrupt">
             <br>
@@ -126,9 +129,9 @@
             <label for="add_image"><img src="Bucket/1.png" alt="image 1"></label>
             <input type="file" id="add_image" accept="image/*">
             <br>
-            <button type="submit">Update</button>
-            <button id="update_delete">Delete</button>
-            <button id="update_cancel">Cancel</button>
+            <button class="btn-1" type="submit">Update</button>
+            <button class="btn-3" id="update_delete">Delete</button>
+            <button class="btn-2" id="update_cancel">Cancel</button>
         </form>
 
     </section>
