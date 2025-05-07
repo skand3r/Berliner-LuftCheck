@@ -22,8 +22,8 @@
     <br>
     <section id="Main_Section">
         <h2>Welcome {user} to Berliner LuftCheck</h2>
-        <ul>
-            <li>
+        <div class = "entry_container">
+            <div class="entry">
                 <h3>Radweg endet abrupt</h3>
                 <p>Radweg endet abrupt und ohne Vorwarnung</p>
                 <p><b>Straße:</b> Willheminenshof 75</p>
@@ -33,8 +33,8 @@
                 <p><b>Lon:</b> 18.3213</p>
                 <p><b>Kategorie:</b> Radweg</p>
                 <img src="Bucket/1.png" alt="image 1">
-            </li>
-            <li>
+            </div>
+            <div class="entry">
                 <h3>Abweichung wegen Baustellen</h3>
                 <p>Baustelle verändert Radweg</p>
                 <p><b>Straße:</b> Treskowalle 12</p>
@@ -44,8 +44,8 @@
                 <p><b>Lon:</b> 16.5213</p>
                 <p><b>Kategorie:</b> Baustellen</p>
                 <img src="Bucket/2.png" alt="image 2">
-            </li>
-            <li>
+            </div>
+            <div class="entry">
                 <h3>Spitze Abweichungswinkel</h3>
                 <p>gefährlicher Winkel im Weg</p>
                 <p><b><b>Straße:</b></b> Treskowalle 19</p>
@@ -54,8 +54,8 @@
                 <p><b>Lat:</b> 56.3453</p>
                 <p><b>Lon:</b> 17.5213</p>
                 <p><b>Kategorie:</b> Radweg</p>
-            </li>
-        </ul>
+            </div>
+        </div>
         <div class="buttons">
             <button class="btn-1">Add</button>
             <button class="btn-2">Logout</button>
@@ -115,7 +115,8 @@
             <br>
             <input type="text" placeholder="Lon." value="18.3213">
             <br>
-            <Label for="category">Kategorien</Label>
+            <Label for="category">Kategorie</Label>
+            <br>
             <select name="category" value="Radweg">
                 <option value="radweg">Radweg</option>
                 <option value="parkplaetze">P. & R. Parkplätze</option>
@@ -125,10 +126,11 @@
                 <option value="transport_sharing">Sharing von Transportmitteln</option>
                 <option value="luftverschmutzung">Luftverschmutzung</option>
             </select>
+            <br><br>
+            <label for="add_image"><img src="Bucket/1.png" alt="image 1" class="image_preview"></label>
             <br>
-            <label for="add_image"><img src="Bucket/1.png" alt="image 1"></label>
             <input type="file" id="add_image" accept="image/*">
-            <br>
+            <br><br>
             <button class="btn-1" type="submit">Update</button>
             <button class="btn-3" id="update_delete">Delete</button>
             <button class="btn-2" id="update_cancel">Cancel</button>
