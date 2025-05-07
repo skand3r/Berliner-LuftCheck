@@ -11,13 +11,15 @@
 <body>
     <h1>Berliner LuftCheck</h1>
     <section id="Login_Section">
-        <h3>Login</h3>
+        <h3>Anmelden</h3>
         <form action="">
             <input type="text" id="username" placeholder="Benutzername" required>
             <br>
             <input type="password" id="password" placeholder="Passwort" required>
             <br>
-            <button class="btn-1" type="submit">Login</button>
+            <div class="buttons">
+                <button class="btn-1" type="submit">Login</button>
+            </div>
         </form>
     </section>
     <br>
@@ -66,18 +68,25 @@
     <section id="Add_Section">
         <h2>Etwas nicht in Ordnung? Hier kannst du es melden</h2>
         <form action="">
+            <label for="add_title">Titel</label>
             <input type="text" id="add_title" placeholder="Titel" required>
             <br>
+            <label for="add_description">Beschreibung</label>
             <input type="text" id="add_description" placeholder="Beschreibung">
             <br>
+            <label for="add_street">Straße</label>
             <input type="text" id="add_street" placeholder="Straße" required>
             <br>
+            <label for="add_PLZ">PLZ</label>
             <input type="number" id="add_PLZ" placeholder="PLZ" required>
             <br>
+            <label for="add_city">Stadt</label>
             <input type="text" id="add_city" value="Berlin" readonly>
             <br>
+            <label for="add_lat">Latitude</label>
             <input type="text" id="add_lat" value="52.5268" readonly>
             <br>
+            <label for="add_lat">Longitude</label>
             <input type="text" id="add_lon" value="13.5020" readonly>
             <br>
             <label for="category">Kategorie</label>
@@ -94,8 +103,10 @@
             <label for="add_image">Bild</label>
             <input type="file" id="add_image" accept="image/*">
             <br>
-            <button class="btn-1" type="submit">Save/Submit</button>
-            <button class="btn-2" id="add_cancel">Cancel</button>
+            <div class="buttons">
+                <button class="btn-1" type="submit">Save/Submit</button>
+                <button class="btn-2" id="add_cancel">Cancel</button>
+            </div>
         </form>
     </section>
     <br>
@@ -115,8 +126,6 @@
             <input type="text" placeholder="Lat." value="52.45634">
             <br>
             <input type="text" placeholder="Lon." value="18.3213">
-            <br>
-            <Label for="category">Kategorie</Label>
             <br>
             <select name="category" value="Radweg">
                 <option value="radweg">Radweg</option>
@@ -139,7 +148,7 @@
 
     </section>
     <footer>
-        <p>&copy; 2025 Berliner LuftCheck. All rights reserved.</p>
+        <p><b>&copy; 2025 Berliner LuftCheck. All rights reserved.</b></p>
         <p>
             <a href="#impressum">Impressum</a> |
             <a href="#datenschutz">Datenschutzerklärung</a>
@@ -166,7 +175,7 @@
             <p>Diese Website dient ausschließlich zu Demonstrationszwecken im Rahmen eines Studienprojekts der HTW
                 Berlin.
             </p>
-            <p>Bei Fragen zum Datenschutz kontaktieren Sie uns bitte unter der oben angegebenen E-Mail-Adresse.</p>
+            <p>Bei Fragen zum Datenschutz kontaktieren Sie uns bitte unter der angegebenen E-Mail-Adresse.</p>
         </div>
     </div>
 </body>
