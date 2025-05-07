@@ -47,8 +47,6 @@ h2 {
     gap: 10px;
 }
 
-#Add_Section form {}
-
 .btn-1 {
     padding: 10px 20px;
     background-color: #67AE6E;
@@ -59,6 +57,11 @@ h2 {
     font-weight: bold;
 }
 
+.btn-1:hover {
+    background-color: #328E6E;
+    transition: background-color 0.2s ease;
+}
+
 .btn-2 {
     padding: 10px 20px;
     background-color: #90C67C;
@@ -67,20 +70,26 @@ h2 {
     font-size: 16px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-weight: bold;
+}
 
-
+.btn-2:hover {
+    background-color: #328E6E;
+    transition: background-color 0.2s ease;
 }
 
 .btn-3 {
     padding: 10px 20px;
     background-color: #FFB3B3;
-    border: 2px solid #328E6E;
+    border: 2px solid #ff5555;
     border-radius: 8px;
     font-size: 16px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-weight: bold;
+}
 
-
+.btn-3:hover {
+    background-color: #ff5555;
+    transition: background-color 0.2s ease;
 }
 
 footer {
