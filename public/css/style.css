@@ -84,16 +84,18 @@ section {
     padding: 10px;
 }
 
+.entry:hover {
+    text-align: center;
+    background-color: #90C67C;
+    border: #90C67C 2px solid;
+    padding: 10px;
+}
+
 .entry img {
     width: 50%;
     height: auto;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.entry img:hover {
-    transform: scale(1.05);
-    transition: transform 0.2s ease;
 }
 
 h2 {
