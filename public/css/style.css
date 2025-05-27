@@ -183,7 +183,7 @@ footer p {
 }
 
 
-#impressum-datenschutz {
+#legal-privacy {
     display: flex;
     flex-direction: row;
     gap: 20px;
@@ -197,8 +197,8 @@ footer p {
     border-radius: 10px;
 }
 
-#impressum,
-#datenschutz {
+#legal,
+#privacy {
     flex: 1 1 300px;
     max-width: 500px;
 }
