@@ -24,41 +24,8 @@
     </section>
     <br>
     <section id="Main_Section">
-        <h2 id="welcome-text">Welcome {user} to Berliner LuftCheck</h2>
-        <div class="entry_container">
-            <div class="entry">
-                <h3>Bike path ends abruptly</h3>
-                <p>Bike path ends abruptly without warning</p>
-                <p><b>Street:</b> Willheminenshof 75</p>
-                <p><b>Postal Code:</b> 10657</p>
-                <p><b>City:</b> Berlin</p>
-                <p><b>Lat:</b> 52.45634</p>
-                <p><b>Lon:</b> 18.3213</p>
-                <p><b>Category:</b> Bike path</p>
-                <img src="images/1.png" alt="image 1">
-            </div>
-            <div class="entry">
-                <h3>Deviation due to construction</h3>
-                <p>Construction alters bike path</p>
-                <p><b>Street:</b> Treskowalle 12</p>
-                <p><b>Postal Code:</b> 12657</p>
-                <p><b>City:</b> Berlin</p>
-                <p><b>Lat:</b> 56.3453</p>
-                <p><b>Lon:</b> 16.5213</p>
-                <p><b>Category:</b> Construction</p>
-                <img src="images/2.png" alt="image 2">
-            </div>
-            <div class="entry">
-                <h3>Sharp deviation angle</h3>
-                <p>Dangerous angle in the path</p>
-                <p><b>Street:</b> Treskowalle 19</p>
-                <p><b>Postal Code:</b> 12657</p>
-                <p><b>City:</b> Berlin</p>
-                <p><b>Lat:</b> 56.3453</p>
-                <p><b>Lon:</b> 17.5213</p>
-                <p><b>Category:</b> Bike path</p>
-            </div>
-        </div>
+        <h2 id="welcome-text">Welcome to Berliner LuftCheck</h2>
+        <div class="entry_container" id="entry_container"></div>
         <div class="buttons">
             <button class="btn-1" onclick="showScreen('add')">Add</button>
             <button class="btn-2" onclick="showScreen('login')">Logout</button>
@@ -137,7 +104,8 @@
                 <option value="luftverschmutzung">Air pollution</option>
             </select>
             <br><br>
-            <label for="add_image"><img src="images/1.png" alt="image 1" class="image_preview"></label>
+            <label for="add_image"><img src="images/1.png" alt="image 1" class="image_preview"
+                    id="update_image"></label>
             <br>
             <input type="file" id="add_image" accept="image/*">
             <br><br>
