@@ -183,6 +183,36 @@ function fillUpdateForm(entry) {
     preview.style.display = entry.image ? "block" : "none";
 }
 
+function getLonLat(e) {
+    e.preventDefault();
+    let street = document.getElementById("update-street").value;
+    let postal = document.getElementById("update-postal").value;
+    let city = document.getElementById("update-city").value;
+
+    let httpRequest = new XMLHttpRequest();
+    const url = `https://api.geoapify.com/v1/geocode/search?text=${street}%20${postal}%20${city}&apiKey=f4480c048f294d0daefc2b8b8cca4fcc`
+
+    httpRequest.open("GET", url, true);
+
+    httpRequest.onerror = function () {
+        console.log("Connecting to server with " + url + " failed!\n");
+    };
+
+    httpRequest.onload = function () {
+        let data = this.response;
+        let obj = JSON.parse(data)
+        if (this.status == 200) {
+            document.getElementById("update-lon").value = obj.features[0].properties.lon;
+            document.getElementById("update-lat").value = obj.features[0].properties.lat;
+        }
+        else {
+            console.log("HTTP-status code was: " + this.status);
+        }
+    }
+
+    httpRequest.send();
+
+}
 // function delete (item) {}
 // function showError() {}
 

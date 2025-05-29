@@ -91,9 +91,11 @@
             <br>
             <input type="text" id="update-city" placeholder="City" value="Berlin" required readonly>
             <br>
-            <input type="text" id="update-lat" placeholder="Lat." value="52.45634">
+            <input type="text" id="update-lat" placeholder="Lat." value="52.45634" readonly>
             <br>
-            <input type="text" id="update-lon" placeholder="Lon." value="18.3213">
+            <input type="text" id="update-lon" placeholder="Lon." value="18.3213" readonly>
+            <br>
+            <button id="get-lat-lon" onclick="getLonLat(event)">Get Latitude and Longitude</button>
             <br>
             <select name="category" id="update-category">
                 <option value="bike-path">Bike path</option>
