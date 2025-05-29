@@ -58,13 +58,13 @@
             <br>
             <label for="category">Category</label>
             <select id="category" name="category">
-                <option value="radweg">Bike path</option>
-                <option value="parkplaetze">P. & R. Parking</option>
-                <option value="oeffis">Public transport</option>
-                <option value="verschmutzung_oeff">Pollution of public areas</option>
-                <option value="baustellen">Construction</option>
-                <option value="transport_sharing">Transport sharing</option>
-                <option value="luftverschmutzung">Air pollution</option>
+                <option value="bike-path">Bike path</option>
+                <option value="parking">P. & R. Parking</option>
+                <option value="transportation">Public transport</option>
+                <option value="polution">Pollution of public areas</option>
+                <option value="construction">Construction</option>
+                <option value="transport-sharing">Transport sharing</option>
+                <option value="air-polution">Air pollution</option>
             </select>
             <br>
             <label for="add_image">Image</label>
@@ -80,34 +80,37 @@
     <section id="Update_Section">
         <h2>Update needed? Edit here</h2>
         <form action="">
-            <input type="text" placeholder="Title" value="Bike path ends abruptly">
+            <input type="text" id="update-title" placeholder="Title" value="Bike path ends abruptly">
             <br>
-            <input type="text" placeholder="Description" value="Bike path ends abruptly without warning">
+            <input type="text" id="update-description" placeholder="Description"
+                value="Bike path ends abruptly without warning">
             <br>
-            <input type="text" placeholder="Street" value="Willheminenshof 75">
+            <input type="text" id="update-street" placeholder="Street" value="Willheminenshof 75">
             <br>
-            <input type="text" placeholder="Postal Code" value="10657">
+            <input type="text" id="update-postal" placeholder="Postal Code" value="10657">
             <br>
-            <input type="text" placeholder="City" value="Berlin" required readonly>
+            <input type="text" id="update-city" placeholder="City" value="Berlin" required readonly>
             <br>
-            <input type="text" placeholder="Lat." value="52.45634">
+            <input type="text" id="update-lat" placeholder="Lat." value="52.45634">
             <br>
-            <input type="text" placeholder="Lon." value="18.3213">
+            <input type="text" id="update-lon" placeholder="Lon." value="18.3213">
             <br>
-            <select name="category" value="Radweg">
-                <option value="radweg">Bike path</option>
-                <option value="parkplaetze">P. & R. Parking</option>
-                <option value="oeffis">Public transport</option>
-                <option value="verschmutzung_oeff">Pollution of public areas</option>
-                <option value="baustellen">Construction</option>
-                <option value="transport_sharing">Transport sharing</option>
-                <option value="luftverschmutzung">Air pollution</option>
+            <select name="category" id="update-category">
+                <option value="bike-path">Bike path</option>
+                <option value="parking">P. & R. Parking</option>
+                <option value="transportation">Public transport</option>
+                <option value="polution">Pollution of public areas</option>
+                <option value="construction">Construction</option>
+                <option value="transport-sharing">Transport sharing</option>
+                <option value="air-polution">Air pollution</option>
             </select>
             <br><br>
-            <label for="add_image"><img src="images/1.png" alt="image 1" class="image_preview"
-                    id="update_image"></label>
+            <label for="update_image_input">
+                <img src="" alt="image preview" class="image_preview" id="update_image" style="display: none;">
+            </label>
+
             <br>
-            <input type="file" id="add_image" accept="image/*">
+            <input type="file" id="update_image_input" accept="image/*">
             <br><br>
             <button class="btn-1" type="submit">Update</button>
             <button class="btn-3" id="update_delete">Delete</button>

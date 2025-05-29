@@ -28,7 +28,7 @@ const entryData = [
         city: "Berlin",
         lat: "52.45634",
         lon: "18.3213",
-        category: "radweg",
+        category: "bike-path",
         image: "images/1.png"
     },
     {
@@ -39,7 +39,7 @@ const entryData = [
         city: "Berlin",
         lat: "56.3453",
         lon: "16.5213",
-        category: "baustellen",
+        category: "construction",
         image: "images/2.png"
     },
     {
@@ -50,7 +50,7 @@ const entryData = [
         city: "Berlin",
         lat: "56.3453",
         lon: "17.5213",
-        category: "radweg",
+        category: "bike-path",
         image: null
     }
 ];
@@ -90,11 +90,11 @@ loginForm.addEventListener("submit", function (event) {
     showScreen("main");
 });
 
-const entries = document.getElementsByClassName("entry");
+// const entries = document.getElementsByClassName("entry");
 
-for (let i = 0; i < entries.length; i++) {
-    entries[i].addEventListener("click", () => showScreen("update"));
-}
+// for (let i = 0; i < entries.length; i++) {
+//     entries[i].addEventListener("click", () => showScreen("update"));
+// }
 
 
 
@@ -131,9 +131,30 @@ function renderEntries() {
                 ${entry.image ? `<img src="${entry.image}" alt="image ${index + 1}">` : ""}
         `;
 
-
+        entryDiv.addEventListener("click", () => {
+            console.log("Clicked on:", entry.title);
+            fillUpdateForm(entry);
+            showScreen("update")
+        });
         container.appendChild(entryDiv);
     })
+}
+
+
+function fillUpdateForm(entry) {
+    document.getElementById("update-title").value = entry.title;
+    document.getElementById("update-description").value = entry.description;
+    document.getElementById("update-street").value = entry.street;
+    document.getElementById("update-postal").value = entry.postal;
+    document.getElementById("update-city").value = entry.city;
+    document.getElementById("update-lat").value = entry.lat;
+    document.getElementById("update-lon").value = entry.lon;
+    document.getElementById("update-category").value = entry.category;
+
+
+    const preview = document.getElementById("update_image");
+    preview.src = entry.image || "";
+    preview.style.display = entry.image ? "block" : "none";
 }
 
 // function delete (item) {}
