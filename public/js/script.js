@@ -56,6 +56,8 @@ const entryData = [
 ];
 
 
+let editingIndex = null;
+
 
 showScreen("login");
 
@@ -84,17 +86,41 @@ loginForm.addEventListener("submit", function (event) {
     welcomeText.textContent = `Welcome ${currentUser.name} to Berliner LuftCheck`
 
 
-    // TODO: Actual login logic
-
-    // for now, just show the main screen
     showScreen("main");
 });
 
-// const entries = document.getElementsByClassName("entry");
 
-// for (let i = 0; i < entries.length; i++) {
-//     entries[i].addEventListener("click", () => showScreen("update"));
-// }
+let updateForm = document.getElementById("update-form");
+
+updateForm.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    if (editingIndex === null) return;
+
+
+    entryData[editingIndex].title = document.getElementById("update-title").value;
+    entryData[editingIndex].description = document.getElementById("update-description").value;
+    entryData[editingIndex].street = document.getElementById("update-street").value;
+    entryData[editingIndex].postal = document.getElementById("update-postal").value;
+    entryData[editingIndex].city = document.getElementById("update-city").value;
+    entryData[editingIndex].lat = document.getElementById("update-lat").value;
+    entryData[editingIndex].lon = document.getElementById("update-lon").value;
+    entryData[editingIndex].category = document.getElementById("update-category").value;
+
+
+    const preview = document.getElementById("update_image");
+    entryData[editingIndex].image = preview.src;
+
+
+    editingIndex = null;
+
+
+    renderEntries();
+    showScreen("main");
+});
+
+
+
 
 
 
@@ -108,7 +134,7 @@ function showScreen(screenName) {
     }
 }
 
-function showError() { }
+
 
 
 function renderEntries() {
@@ -132,7 +158,7 @@ function renderEntries() {
         `;
 
         entryDiv.addEventListener("click", () => {
-            console.log("Clicked on:", entry.title);
+            editingIndex = index;
             fillUpdateForm(entry);
             showScreen("update")
         });
@@ -158,7 +184,7 @@ function fillUpdateForm(entry) {
 }
 
 // function delete (item) {}
-
+// function showError() {}
 
 // Show the login screen by default
 showScreen("login");
