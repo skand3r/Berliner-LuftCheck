@@ -55,39 +55,45 @@ const entryData = [
     }
 ];
 
+const loginForm = document.getElementById("login_form");
+const loginError = document.getElementById("login_error");
+const usernameInput = document.getElementById("username");
+const passwordInput = document.getElementById("password");
 
 let editingIndex = null;
-
+let currentUser = null;
 
 showScreen("login");
 
-let loginForm = document.getElementById("login_form");
+
 
 loginForm.addEventListener("submit", function (event) {
     event.preventDefault(); // Prevent the site from refreshing
 
-    let currentUser;
-    if (document.getElementById("username").value === "admina" && document.getElementById("password").value === "password") {
-        currentUser = Users[0];
-        renderEntries();
+    // get entered values
+    let enteredUsername = usernameInput.value
+    let enteredPassword = passwordInput.value
 
+    // check users for matching username and password
+    for (let user of Users) {
+        if (user["username"] === enteredUsername && user["password"] === enteredPassword) {
+            loginError.style.display = "none";
+            loginUser(user);
+            return
+        }
     }
-
-    else if (document.getElementById("username").value === "normalo" && document.getElementById("password").value === "password") {
-        currentUser = Users[1];
-        renderEntries();
-    }
-
-    else {
-        showError()
-    }
-
-    const welcomeText = document.getElementById("welcome-text")
-    welcomeText.textContent = `Welcome ${currentUser.name} to Berliner LuftCheck`
-
-
-    showScreen("main");
+    
+    // no matching credentials found, show an error
+    showError()
 });
+
+function loginUser(user) {
+    currentUser = user;
+    renderEntries();
+    const welcomeText = document.getElementById("welcome-text");
+    welcomeText.textContent = `Welcome ${user.name} to Berliner LuftCheck`
+    showScreen("main");
+}
 
 
 let updateForm = document.getElementById("update-form");
@@ -214,7 +220,10 @@ function getLonLat(e) {
 
 }
 // function delete (item) {}
-// function showError() {}
+function showError() {
+    passwordInput.value = "";
+    loginError.style.display = "block";
+}
 
 // Show the login screen by default
 showScreen("login");

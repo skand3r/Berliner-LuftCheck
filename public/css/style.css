@@ -37,6 +37,12 @@ section {
     margin: auto;
 }
 
+#login_error {
+    color: #ff5555;
+    margin-bottom: 4px;
+    display: none;
+}
+
 #Main_Section {
     display: flex;
     flex-direction: row;
