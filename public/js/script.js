@@ -324,6 +324,9 @@ function fillUpdateForm(entry) {
     let userIsAdmin = currentUser["role"] === "admin";
     for (input of Object.values(updateInputs)) {
         input.readOnly = !userIsAdmin;
+
+        // keep coordinate inputs readonly
+        if (input.id === "update-lat" || input.id === "update-lon") input.readOnly = true;
     }
 
     // show/hide buttons depending on user role
