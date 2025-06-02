@@ -11,7 +11,8 @@ const Users = [
         "password": 'password',
         "role": 'admin',
         "name": 'Mina'
-    }, {
+    }, 
+    {
         "username": 'normalo',
         "password": 'password',
         "role": 'non-admin',
@@ -19,7 +20,7 @@ const Users = [
     }
 ]
 
-const entryData = [
+let entryData = [
     {
         title: "Bike path ends abruptly",
         description: "Bike path ends abruptly without warning",
@@ -55,16 +56,47 @@ const entryData = [
     }
 ];
 
+const updateInputs = {
+    title: document.getElementById("update-title"),
+    description: document.getElementById("update-description"),
+    street: document.getElementById("update-street"),
+    postal: document.getElementById("update-postal"),
+    city: document.getElementById("update-city"),
+    lat: document.getElementById("update-lat"),
+    lon: document.getElementById("update-lon"),
+    category: document.getElementById("update-category")
+};
+
+const updateButtons = {
+    update: document.getElementById("update_submit"),
+    delete: document.getElementById("update_delete"),
+    cancel: document.getElementById("update_cancel"),
+};
+
+const addButton = document.getElementById("add_button");
+const addButtonDefaultDisplay = addButton.style.display;
+
+const addInputs = {
+    title: document.getElementById("add-title"),
+    description: document.getElementById("add-description"),
+    street: document.getElementById("add-street"),
+    postal: document.getElementById("add-postal"),
+    city: document.getElementById("add-city"),
+    lat: document.getElementById("add-lat"),
+    lon: document.getElementById("add-lon"),
+    category: document.getElementById("add-category")
+};
+
 const loginForm = document.getElementById("login_form");
 const loginError = document.getElementById("login_error");
 const usernameInput = document.getElementById("username");
 const passwordInput = document.getElementById("password");
 
+const updateForm = document.getElementById("update-form");
+const addForm = document.getElementById("add-form");
+
 let editingIndex = null;
 let currentUser = null;
-
-showScreen("login");
-
 
 
 loginForm.addEventListener("submit", function (event) {
@@ -91,27 +123,28 @@ function loginUser(user) {
     currentUser = user;
     renderEntries();
     const welcomeText = document.getElementById("welcome-text");
-    welcomeText.textContent = `Welcome ${user.name} to Berliner LuftCheck`
+    welcomeText.textContent = `Welcome ${user.name} to Berliner LuftCheck`;
+
+    // show/hide add button depending on user role
+    addButton.style.display = user.role === "admin" ? addButtonDefaultDisplay : "none";
+
     showScreen("main");
 }
-
-
-let updateForm = document.getElementById("update-form");
 
 updateForm.addEventListener("submit", function (event) {
     event.preventDefault();
 
     if (editingIndex === null) return;
 
-
-    entryData[editingIndex].title = document.getElementById("update-title").value;
-    entryData[editingIndex].description = document.getElementById("update-description").value;
-    entryData[editingIndex].street = document.getElementById("update-street").value;
-    entryData[editingIndex].postal = document.getElementById("update-postal").value;
-    entryData[editingIndex].city = document.getElementById("update-city").value;
-    entryData[editingIndex].lat = document.getElementById("update-lat").value;
-    entryData[editingIndex].lon = document.getElementById("update-lon").value;
-    entryData[editingIndex].category = document.getElementById("update-category").value;
+    // fill entries
+    entryData[editingIndex].title = updateInputs.title.value;
+    entryData[editingIndex].description = updateInputs.description.value;
+    entryData[editingIndex].street = updateInputs.street.value;
+    entryData[editingIndex].postal = updateInputs.postal.value;
+    entryData[editingIndex].city = updateInputs.city.value;
+    entryData[editingIndex].lat = updateInputs.lat.value;
+    entryData[editingIndex].lon = updateInputs.lon.value;
+    entryData[editingIndex].category = updateInputs.category.value;
 
 
     const preview = document.getElementById("update_image");
@@ -126,8 +159,37 @@ updateForm.addEventListener("submit", function (event) {
 });
 
 
+function updateDelete() {
+    entryData.splice(editingIndex, 1);
+    renderEntries();
+    showScreen("main");
+}
+
+addForm.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    let newEntry = {};
+
+    // fill entries
+    newEntry.title = addInputs.title.value;
+    newEntry.description = addInputs.description.value;
+    newEntry.street = addInputs.street.value;
+    newEntry.postal = addInputs.postal.value;
+    newEntry.city = addInputs.city.value;
+    newEntry.lat = addInputs.lat.value;
+    newEntry.lon = addInputs.lon.value;
+    newEntry.category = addInputs.category.value;
 
 
+    const preview = document.getElementById("add-image");
+    newEntry.image = preview.src;
+
+    entryData.push(newEntry);
+
+
+    renderEntries();
+    showScreen("main");
+});
 
 
 function showScreen(screenName) {
@@ -139,8 +201,6 @@ function showScreen(screenName) {
         }
     }
 }
-
-
 
 
 function renderEntries() {
@@ -174,16 +234,26 @@ function renderEntries() {
 
 
 function fillUpdateForm(entry) {
-    document.getElementById("update-title").value = entry.title;
-    document.getElementById("update-description").value = entry.description;
-    document.getElementById("update-street").value = entry.street;
-    document.getElementById("update-postal").value = entry.postal;
-    document.getElementById("update-city").value = entry.city;
-    document.getElementById("update-lat").value = entry.lat;
-    document.getElementById("update-lon").value = entry.lon;
-    document.getElementById("update-category").value = entry.category;
+    //fill inputs
+    updateInputs.title.value = entry.title;
+    updateInputs.description.value = entry.description;
+    updateInputs.street.value = entry.street;
+    updateInputs.postal.value = entry.postal;
+    updateInputs.city.value = entry.city;
+    updateInputs.lat.value = entry.lat;
+    updateInputs.lon.value = entry.lon;
+    updateInputs.category.value = entry.category;
 
+    // make entries editable depending on user role
+    let userIsAdmin = currentUser["role"] === "admin";
+    for (input of Object.values(updateInputs)) {
+        input.readOnly = !userIsAdmin;
+    }
 
+    // show/hide buttons depending on user role
+    updateButtons.update.style.display = userIsAdmin ? updateButtons.updateDefaultDisplay : "none";
+    updateButtons.delete.style.display = userIsAdmin ? updateButtons.deleteDefaultDisplay : "none";
+    
     const preview = document.getElementById("update_image");
     preview.src = entry.image || "";
     preview.style.display = entry.image ? "block" : "none";
@@ -225,5 +295,13 @@ function showError() {
     loginError.style.display = "block";
 }
 
-// Show the login screen by default
-showScreen("login");
+// function to initialize the site
+function init() {
+    updateButtons.updateDefaultDisplay = updateButtons.update.style.display;
+    updateButtons.deleteDefaultDisplay = updateButtons.delete.style.display;
+
+    // Show the login screen by default
+    showScreen("login");
+
+    loginUser(Users[1]) // for testing delete later!!!!!!!!!!!
+}
