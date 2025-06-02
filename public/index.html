@@ -52,10 +52,10 @@
             <input type="text" id="add-city" value="Berlin" readonly>
             <br>
             <label for="add_lat">Latitude</label>
-            <input type="text" id="add-lat" value="52.5268" readonly>
+            <input type="text" id="add-lat" value="" readonly>
             <br>
             <label for="add_lat">Longitude</label>
-            <input type="text" id="add-lon" value="13.5020" readonly>
+            <input type="text" id="add-lon" value="" readonly>
             <br>
             <label for="category">Category</label>
             <select id="add-category" name="category">
@@ -71,9 +71,11 @@
             <label for="add-image">Image</label>
             <input type="file" id="add-image" accept="image/*">
             <br>
+            <p id="add_api_status"></p>
+            <br>
             <div class="buttons">
-                <button class="btn-1" type="submit">Save/Submit</button>
-                <button class="btn-2" id="add_cancel" onclick="showScreen('main')">Cancel</button>
+                <button class="btn-1" type="submit" id="add_submit">Save/Submit</button>
+                <button class="btn-2" type="button" id="add_cancel" onclick="showScreen('main')">Cancel</button>
             </div>
         </form>
     </section>
@@ -96,8 +98,6 @@
             <br>
             <input type="text" id="update-lon" placeholder="Lon." value="18.3213" readonly>
             <br>
-            <button id="get-lat-lon" onclick="getLonLat(event)">Get Latitude and Longitude</button>
-            <br>
             <select name="category" id="update-category">
                 <option value="bike-path">Bike path</option>
                 <option value="parking">P. & R. Parking</option>
@@ -114,7 +114,9 @@
 
             <br>
             <input type="file" id="update_image_input" accept="image/*">
-            <br><br>
+            <br>
+            <p id="update_api_status"></p>
+            <br>
             <button class="btn-1" id="update_submit" type="submit">Update</button>
             <button class="btn-3" id="update_delete" type="button" onclick="updateDelete()">Delete</button>
             <button class="btn-2" id="update_cancel" type="button" onclick="showScreen('main')">Cancel</button>

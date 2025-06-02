@@ -79,6 +79,11 @@ const updateButtons = {
 const addButton = document.getElementById("add_button");
 const addButtonDefaultDisplay = addButton.style.display;
 
+const addSubmitButton = document.getElementById("add_submit");
+const addCancelButton = document.getElementById("add_cancel");
+const addApiStatus = document.getElementById("add_api_status")
+const updateApiStatus = document.getElementById("update_api_status")
+
 const addInputs = {
     title: document.getElementById("add-title"),
     description: document.getElementById("add-description"),
@@ -144,6 +149,35 @@ updateForm.addEventListener("submit", function (event) {
 
     if (editingIndex === null) return;
 
+    // if address is unchanged, dont update the coordinates
+    if (updateInputs.street.value === entryData[editingIndex].street && updateInputs.postal.value === entryData[editingIndex].postal && updateInputs.city.value === entryData[editingIndex].city) {
+        updateEntry();
+        return;
+    }
+
+    updateApiStatus.style.color = "inherit";
+    updateApiStatus.innerHTML = "getting coordinates...";
+
+    updateButtonsSetEnabled(false);
+
+    getLonLat(updateInputs.street.value, updateInputs.postal.value, updateInputs.city.value)
+    .then(coords => {
+        updateButtonsSetEnabled(true);
+        updateApiStatus.innerHTML = "";
+        console.log("Coordinates:", coords);
+        updateInputs.lat.value = coords.lat;
+        updateInputs.lon.value = coords.lon;
+        updateEntry();
+    })
+    .catch(error => {
+        updateButtonsSetEnabled(true);
+        console.error("Error:", error);
+        updateApiStatus.style.color = "#ff5555";
+        updateApiStatus.innerHTML = "Error getting Coordinates: " + error;
+    });
+});
+
+function updateEntry() {
     // fill entries
     entryData[editingIndex].title = updateInputs.title.value;
     entryData[editingIndex].description = updateInputs.description.value;
@@ -164,7 +198,7 @@ updateForm.addEventListener("submit", function (event) {
 
     renderEntries();
     showScreen("main");
-});
+}
 
 
 function updateDelete() {
@@ -175,7 +209,41 @@ function updateDelete() {
 
 addForm.addEventListener("submit", function (event) {
     event.preventDefault();
+    
+    addApiStatus.style.color = "inherit";
+    addApiStatus.innerHTML = "getting coordinates...";
 
+    addButtonsSetEnabled(false);
+
+    getLonLat(addInputs.street.value, addInputs.postal.value, addInputs.city.value)
+    .then(coords => {
+        addButtonsSetEnabled(true);
+        addApiStatus.innerHTML = "";
+        console.log("Coordinates:", coords);
+        addInputs.lat.value = coords.lat;
+        addInputs.lon.value = coords.lon;
+        addEntry();
+    })
+    .catch(error => {
+        addButtonsSetEnabled(true);
+        console.error("Error:", error);
+        addApiStatus.style.color = "#ff5555";
+        addApiStatus.innerHTML = "Error getting Coordinates: " + error;
+    });
+});
+
+function addButtonsSetEnabled(enabled) {
+    addSubmitButton.disabled = !enabled;
+    addCancelButton.disabled = !enabled;
+}
+
+function updateButtonsSetEnabled(enabled) {
+    updateButtons.cancel.disabled = !enabled;
+    updateButtons.delete.disabled = !enabled;
+    updateButtons.update.disabled = !enabled;
+}
+
+function addEntry () {
     let newEntry = {};
 
     // fill entries
@@ -197,7 +265,7 @@ addForm.addEventListener("submit", function (event) {
 
     renderEntries();
     showScreen("main");
-});
+}
 
 
 function showScreen(screenName) {
@@ -268,35 +336,41 @@ function fillUpdateForm(entry) {
     preview.style.display = entry.image ? "block" : "none";
 }
 
-function getLonLat(e) {
-    e.preventDefault();
-    let street = document.getElementById("update-street").value;
-    let postal = document.getElementById("update-postal").value;
-    let city = document.getElementById("update-city").value;
+function getLonLat(street, postal, city) {
+    // use encodeURIComponent to automatically convert special characters
+    const url = `https://api.geoapify.com/v1/geocode/search?text=${encodeURIComponent(street + ' ' + postal + ' ' + city)}&apiKey=f4480c048f294d0daefc2b8b8cca4fcc`;
 
-    let httpRequest = new XMLHttpRequest();
-    const url = `https://api.geoapify.com/v1/geocode/search?text=${street}%20${postal}%20${city}&apiKey=f4480c048f294d0daefc2b8b8cca4fcc`
+    // creating a Promise for returning the result
+    return new Promise((resolve, reject) => {
+        const httpRequest = new XMLHttpRequest();
+        httpRequest.open("GET", url, true);
 
-    httpRequest.open("GET", url, true);
+        httpRequest.onload = function () {
+            if (this.status === 200) {
+                const obj = JSON.parse(this.responseText);
+                console.log(obj)
+                if (obj.features && obj.features.length > 0) {
+                    const coords = {
+                        lon: obj.features[0].properties.lon,
+                        lat: obj.features[0].properties.lat
+                    };
+                    resolve(coords);
+                } else {
+                    reject("No results found");
+                }
+            } else {
+                reject(`HTTP error: ${this.status}`);
+            }
+        };
 
-    httpRequest.onerror = function () {
-        console.log("Connecting to server with " + url + " failed!\n");
-    };
+        httpRequest.onerror = function () {
+            reject("Network error");
+        };
 
-    httpRequest.onload = function () {
-        let data = this.response;
-        let obj = JSON.parse(data)
-        if (this.status == 200) {
-            document.getElementById("update-lon").value = obj.features[0].properties.lon;
-            document.getElementById("update-lat").value = obj.features[0].properties.lat;
-        }
-        else {
-            console.log("HTTP-status code was: " + this.status);
-        }
-    }
-
-    httpRequest.send();
+        httpRequest.send();
+    });
 }
+
 
 // function delete (item) {}
 function showError() {
@@ -311,6 +385,8 @@ function init() {
 
     // Show the login screen by default
     showScreen("login");
+
+    loginUser(Users[0]);
 }
 
 init();
