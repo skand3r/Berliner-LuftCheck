@@ -385,8 +385,6 @@ function init() {
 
     // Show the login screen by default
     showScreen("login");
-
-    loginUser(Users[0]);
 }
 
 init();
