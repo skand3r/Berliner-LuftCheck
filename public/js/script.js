@@ -302,6 +302,6 @@ function init() {
 
     // Show the login screen by default
     showScreen("login");
-
-    loginUser(Users[1]) // for testing delete later!!!!!!!!!!!
 }
+
+init();
