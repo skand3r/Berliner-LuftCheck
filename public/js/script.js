@@ -67,6 +67,9 @@ const updateInputs = {
     category: document.getElementById("update-category")
 };
 
+const updateImageInput = document.getElementById("update_image_input");
+const updateImageInputDefaultDisplay = updateImageInput.style.display;
+
 const updateButtons = {
     update: document.getElementById("update_submit"),
     delete: document.getElementById("update_delete"),
@@ -120,6 +123,11 @@ loginForm.addEventListener("submit", function (event) {
 });
 
 function loginUser(user) {
+    //clear login values
+    usernameInput.value = "";
+    passwordInput.value = "";
+
+
     currentUser = user;
     renderEntries();
     const welcomeText = document.getElementById("welcome-text");
@@ -253,6 +261,7 @@ function fillUpdateForm(entry) {
     // show/hide buttons depending on user role
     updateButtons.update.style.display = userIsAdmin ? updateButtons.updateDefaultDisplay : "none";
     updateButtons.delete.style.display = userIsAdmin ? updateButtons.deleteDefaultDisplay : "none";
+    updateImageInput.style.display = userIsAdmin ? updateImageInputDefaultDisplay : "none";
     
     const preview = document.getElementById("update_image");
     preview.src = entry.image || "";
@@ -287,8 +296,8 @@ function getLonLat(e) {
     }
 
     httpRequest.send();
-
 }
+
 // function delete (item) {}
 function showError() {
     passwordInput.value = "";
