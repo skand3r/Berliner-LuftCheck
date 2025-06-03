@@ -74,6 +74,18 @@ section {
     border: 2px solid #328E6E;
     border-radius: 10px;
     max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px
+}
+
+#update-buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
 }
 
 .entry_container {
@@ -92,6 +104,7 @@ section {
 
 .entry:hover {
     text-align: center;
+    cursor: pointer;
     background-color: #90C67C;
     border: #90C67C 2px solid;
     padding: 10px;

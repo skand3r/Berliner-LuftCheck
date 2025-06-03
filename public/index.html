@@ -84,20 +84,13 @@
         <h2>Update needed? Edit here</h2>
         <form id="update-form" action="">
             <input type="text" id="update-title" placeholder="Title" value="Bike path ends abruptly">
-            <br>
             <input type="text" id="update-description" placeholder="Description"
                 value="Bike path ends abruptly without warning">
-            <br>
             <input type="text" id="update-street" placeholder="Street" value="Willheminenshof 75">
-            <br>
             <input type="text" id="update-postal" placeholder="Postal Code" value="10657">
-            <br>
             <input type="text" id="update-city" placeholder="City" value="Berlin" required readonly>
-            <br>
             <input type="text" id="update-lat" placeholder="Lat." value="52.45634" readonly>
-            <br>
             <input type="text" id="update-lon" placeholder="Lon." value="18.3213" readonly>
-            <br>
             <select name="category" id="update-category">
                 <option value="bike-path">Bike path</option>
                 <option value="parking">P. & R. Parking</option>
@@ -107,19 +100,18 @@
                 <option value="transport-sharing">Transport sharing</option>
                 <option value="air-polution">Air pollution</option>
             </select>
-            <br><br>
+            <br>
             <label for="update_image_input">
                 <img src="" alt="image preview" class="image_preview" id="update_image" style="display: none;">
             </label>
 
-            <br>
             <input type="file" id="update_image_input" accept="image/*">
-            <br>
             <p id="update_api_status"></p>
-            <br>
-            <button class="btn-1" id="update_submit" type="submit">Update</button>
-            <button class="btn-3" id="update_delete" type="button" onclick="updateDelete()">Delete</button>
-            <button class="btn-2" id="update_cancel" type="button" onclick="showScreen('main')">Cancel</button>
+            <div id="update-buttons">
+                <button class="btn-1" id="update_submit" type="submit">Update</button>
+                <button class="btn-3" id="update_delete" type="button" onclick="updateDelete()">Delete</button>
+                <button class="btn-2" id="update_cancel" type="button" onclick="showScreen('main')">Cancel</button>
+            </div>
         </form>
     </section>
     <footer>
