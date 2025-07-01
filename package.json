@@ -1,0 +1,26 @@
+{
+  "name": "berliner-luftcheck",
+  "version": "1.0.0",
+  "description": "Berliner Luft is a web application to visualize locations in Berlin lacking sustainable infrastructure or exhibiting environmentally unfriendly features.",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/skand3r/Berliner-LuftCheck.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/skand3r/Berliner-LuftCheck/issues"
+  },
+  "homepage": "https://github.com/skand3r/Berliner-LuftCheck#readme",
+  "dependencies": {
+    "express": "^5.1.0",
+    "mongodb": "^6.17.0"
+  }
+}
