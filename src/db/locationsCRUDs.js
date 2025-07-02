@@ -1,4 +1,4 @@
-import { MongoClient } from "mongodb";
+import { MongoClient, ObjectId } from "mongodb";
 
 // Replace db_user, db_pass, db_name, db_collection
 const db_user = 'webapp_skander';
@@ -57,6 +57,21 @@ export const addLocation = async function (locationObj) {
 
         console.log("new Location ID:", response.insertedId)
         return response.insertedId
+    }
+    finally {
+        client.close();
+    }
+}
+
+export const updateLocation = async function (locationId, locationObj) {
+    const client = new MongoClient(uri)
+    try {
+        const database = client.db(db_name);
+        const locations = database.collection(db_collection);
+
+        const response = await locations.updateOne({ _id: new ObjectId(locationId) }, { $set: locationObj });
+
+        return response
     }
     finally {
         client.close();

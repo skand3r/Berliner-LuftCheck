@@ -1,6 +1,7 @@
 // routes/loc.js
 import { Router } from 'express';
-import { addLocation, findAllLocations, findOneLocation } from '../db/locationsCRUDs.js';
+import { ObjectId } from "mongodb";
+import { addLocation, findAllLocations, findOneLocation, updateLocation } from '../db/locationsCRUDs.js';
 
 const locRouter = Router();
 
@@ -49,3 +50,27 @@ locRouter.post('/', async (req, res) => {
 })
 
 export default locRouter;
+
+locRouter.put('/:id', async (req, res) => {
+    const locationId = req.params.id;
+
+    const locationObj = req.body;
+
+    if (!locationObj || !locationObj.title || !locationObj.street || !locationObj.postal) {
+        return res.status(400).send("Missing required fields.")
+    }
+
+    try {
+        const updated = await updateLocation(locationId, locationObj)
+        console.log("Updating location with ID:", locationId);
+
+        if (updated.matchedCount === 0) {
+            return res.status(404).send("Location not found.");
+        }
+        res.status(204).send()
+    }
+    catch (error) {
+        console.error("Update failed: ", error);
+        res.status(500).send("Error updating location")
+    }
+})
