@@ -1,6 +1,6 @@
 // routes/loc.js
 import { Router } from 'express';
-import { findAllLocations, findOneLocation } from '../db/locationsCRUDs.js';
+import { addLocation, findAllLocations, findOneLocation } from '../db/locationsCRUDs.js';
 
 const locRouter = Router();
 
@@ -28,5 +28,24 @@ locRouter.get('/:id', async (req, res) => {
         res.status(400).send("Invalid ID");
     }
 });
+
+locRouter.post('/', async (req, res) => {
+    //const {name, description, street, zip, city, category, lat, lon} = req.body;
+    const locationObj = req.body;
+
+    if (!locationObj || !locationObj.title || !locationObj.street || !locationObj.postal) {
+        return res.status(400).send("Missing required fields.")
+    }
+
+    try {
+        const newId = await addLocation(locationObj);
+        res.status(201).setHeader('Location', `/loc/${newId}`).send();
+    }
+
+    catch (error) {
+        console.error("Insert failed: ", error);
+        res.status(500).send("Error inserting location.");
+    }
+})
 
 export default locRouter;

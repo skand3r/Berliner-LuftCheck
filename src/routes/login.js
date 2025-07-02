@@ -9,9 +9,9 @@ loginRouter.post('/', async (req, res) => {
     const user = await findOneUser(username, password);
 
     if (user) {
-        res.status(200).json(user); // ✅ success
+        res.status(200).json(user);
     } else {
-        res.status(401).send('Unauthorized'); // ❌ bad credentials
+        res.status(401).send('Unauthorized');
     }
 });
 

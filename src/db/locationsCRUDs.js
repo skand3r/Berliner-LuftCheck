@@ -46,3 +46,19 @@ export const findAllLocations = async function () {
         await client.close();
     }
 };
+
+export const addLocation = async function (locationObj) {
+    const client = new MongoClient(uri);
+    try {
+        const database = client.db(db_name);
+        const locations = database.collection(db_collection);
+
+        const response = await locations.insertOne(locationObj);
+
+        console.log("new Location ID:", response.insertedId)
+        return response.insertedId
+    }
+    finally {
+        client.close();
+    }
+}
