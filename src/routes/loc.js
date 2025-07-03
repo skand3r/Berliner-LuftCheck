@@ -1,7 +1,7 @@
 // routes/loc.js
 import { Router } from 'express';
 import { ObjectId } from "mongodb";
-import { addLocation, findAllLocations, findOneLocation, updateLocation } from '../db/locationsCRUDs.js';
+import { addLocation, findAllLocations, findOneLocation, updateLocation, deleteLocation } from '../db/locationsCRUDs.js';
 
 const locRouter = Router();
 
@@ -49,8 +49,6 @@ locRouter.post('/', async (req, res) => {
     }
 })
 
-export default locRouter;
-
 locRouter.put('/:id', async (req, res) => {
     const locationId = req.params.id;
 
@@ -74,3 +72,23 @@ locRouter.put('/:id', async (req, res) => {
         res.status(500).send("Error updating location")
     }
 })
+
+locRouter.delete('/:id', async (req, res) => {
+    const locationId = req.params.id;
+
+    try {
+        const deleted = await deleteLocation(locationId);
+        console.log("Deleting location with ID:", locationId);
+
+        if (deleted.deletedCount === 0) {
+            return res.status(404).send("Location not found.");
+        }
+        res.status(204).send();
+    }
+    catch (error) {
+        console.error("Delete failed: ", error);
+        res.status(500).send("Error deleting location");
+    }
+});
+
+export default locRouter;

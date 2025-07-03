@@ -68,7 +68,10 @@
                 <option value="air-polution">Air pollution</option>
             </select>
             <br>
-            <label for="add-image">Image</label>
+            <label for="add-image">
+                <img src="" alt="Image" class="image_preview" id="add-image-preview" style="display: none;">
+                Image (Max 10MB)
+            </label>
             <input type="file" id="add-image" accept="image/*">
             <br>
             <p id="add_api_status"></p>
@@ -88,7 +91,7 @@
                 value="Bike path ends abruptly without warning">
             <input type="text" id="update-street" placeholder="Street" value="Willheminenshof 75">
             <input type="text" id="update-postal" placeholder="Postal Code" value="10657">
-            <input type="text" id="update-city" placeholder="City" value="Berlin" required readonly>
+            <input type="text" id="update-city" placeholder="City" value="Berlin" readonly>
             <input type="text" id="update-lat" placeholder="Lat." value="52.45634" readonly>
             <input type="text" id="update-lon" placeholder="Lon." value="18.3213" readonly>
             <select name="category" id="update-category">

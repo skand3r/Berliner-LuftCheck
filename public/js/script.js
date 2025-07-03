@@ -5,56 +5,10 @@ let screens = {
     "update": document.getElementById("Update_Section")
 }
 
-const Users = [
-    {
-        "username": 'admina',
-        "password": 'password',
-        "role": 'admin',
-        "name": 'Mina'
-    }, 
-    {
-        "username": 'normalo',
-        "password": 'password',
-        "role": 'non-admin',
-        "name": 'Norman'
-    }
-]
+const LOGIN_URL = "/login";
+const LOCATION_URL = "/loc";
 
-let entryData = [
-    {
-        title: "Bike path ends abruptly",
-        description: "Bike path ends abruptly without warning",
-        street: "Willheminenshof 75",
-        postal: "10657",
-        city: "Berlin",
-        lat: "52.45634",
-        lon: "18.3213",
-        category: "bike-path",
-        image: "images/1.png"
-    },
-    {
-        title: "Deviation due to construction",
-        description: "Construction alters bike path",
-        street: "Treskowalle 12",
-        postal: "12657",
-        city: "Berlin",
-        lat: "56.3453",
-        lon: "16.5213",
-        category: "construction",
-        image: "images/2.png"
-    },
-    {
-        title: "Sharp deviation angle",
-        description: "Dangerous angle in the path",
-        street: "Treskowalle 19",
-        postal: "12657",
-        city: "Berlin",
-        lat: "56.3453",
-        lon: "17.5213",
-        category: "bike-path",
-        image: null
-    }
-];
+let entryData = [];
 
 const updateInputs = {
     title: document.getElementById("update-title"),
@@ -76,8 +30,13 @@ const updateButtons = {
     cancel: document.getElementById("update_cancel"),
 };
 
+const update_preview = document.getElementById("update_image");
+
 const addButton = document.getElementById("add_button");
 const addButtonDefaultDisplay = addButton.style.display;
+
+const addImageInput = document.getElementById("add-image");
+const add_preview = document.getElementById("add-image-preview");
 
 const addSubmitButton = document.getElementById("add_submit");
 const addCancelButton = document.getElementById("add_cancel");
@@ -103,7 +62,7 @@ const passwordInput = document.getElementById("password");
 const updateForm = document.getElementById("update-form");
 const addForm = document.getElementById("add-form");
 
-let editingIndex = null;
+let currentlyEditing = null;
 let currentUser = null;
 
 
@@ -114,18 +73,41 @@ loginForm.addEventListener("submit", function (event) {
     let enteredUsername = usernameInput.value
     let enteredPassword = passwordInput.value
 
-    // check users for matching username and password
-    for (let user of Users) {
-        if (user["username"] === enteredUsername && user["password"] === enteredPassword) {
-            loginError.style.display = "none";
-            loginUser(user);
-            return
-        }
-    }
-    
-    // no matching credentials found, show an error
-    showError()
+    // check if credentials are valid
+    checkLogin(enteredUsername, enteredPassword)
+    .then(user => {
+        // if credentials are valid, login user
+        loginUser(user);
+    })
+    .catch(error => {
+        showError()
+        console.error("Login error:", error);
+    });
 });
+
+function checkLogin(username, password) {
+    return new Promise((resolve, reject) => {
+        const httpRequest = new XMLHttpRequest();
+        httpRequest.open("POST", LOGIN_URL, true);
+        httpRequest.setRequestHeader("Content-Type", "application/json");
+
+        httpRequest.onload = function () {
+            if (this.status === 200) {
+                const user = JSON.parse(this.responseText);
+                resolve(user);
+            } else {
+                reject("Login failed: " + this.statusText);
+            }
+        };
+
+        httpRequest.onerror = function () {
+            reject("Network error");
+        };
+
+        const data = JSON.stringify({ username: username, password: password });
+        httpRequest.send(data);
+    });
+}
 
 function loginUser(user) {
     //clear login values
@@ -134,23 +116,50 @@ function loginUser(user) {
 
 
     currentUser = user;
-    renderEntries();
     const welcomeText = document.getElementById("welcome-text");
     welcomeText.textContent = `Welcome ${user.name} to Berliner LuftCheck`;
 
     // show/hide add button depending on user role
     addButton.style.display = user.role === "admin" ? addButtonDefaultDisplay : "none";
 
-    showScreen("main");
+    // wait for entries to be updated before showing the main screen
+    updateEntriesAndShowMainScreen();
 }
+
+updateImageInput.addEventListener("change", function () {
+    console.log("Update image input changed");
+    getImageData(updateImageInput)
+    .then(imageData => {
+        update_preview.src = imageData; // set the preview image to the new image data
+        update_preview.style.display = "block"; // show the preview image
+    })
+    .catch(error => {
+        console.error("Error getting image data:", error);
+        updateApiStatus.innerHTML = "Error getting image data: " + error;
+        updateApiStatus.style.color = "#ff5555";
+    });
+});
+
+addImageInput.addEventListener("change", function () {
+    getImageData(addImageInput)
+    .then(imageData => {
+        add_preview.src = imageData; // set the preview image to the new image data
+        add_preview.style.display = "block"; // show the preview image
+    })
+    .catch(error => {
+        console.error("Error getting image data:", error);
+        addApiStatus.innerHTML = "Error getting image data: " + error;
+        addApiStatus.style.color = "#ff5555";
+    });
+});
 
 updateForm.addEventListener("submit", function (event) {
     event.preventDefault();
 
-    if (editingIndex === null) return;
+    if (currentlyEditing === null) return;
 
     // if address is unchanged, dont update the coordinates
-    if (updateInputs.street.value === entryData[editingIndex].street && updateInputs.postal.value === entryData[editingIndex].postal && updateInputs.city.value === entryData[editingIndex].city) {
+    if (updateInputs.street.value === currentlyEditing.street && updateInputs.postal.value === currentlyEditing.postal && updateInputs.city.value === currentlyEditing.city) {
         updateEntry();
         return;
     }
@@ -177,34 +186,104 @@ updateForm.addEventListener("submit", function (event) {
     });
 });
 
-function updateEntry() {
-    // fill entries
-    entryData[editingIndex].title = updateInputs.title.value;
-    entryData[editingIndex].description = updateInputs.description.value;
-    entryData[editingIndex].street = updateInputs.street.value;
-    entryData[editingIndex].postal = updateInputs.postal.value;
-    entryData[editingIndex].city = updateInputs.city.value;
-    entryData[editingIndex].lat = updateInputs.lat.value;
-    entryData[editingIndex].lon = updateInputs.lon.value;
-    entryData[editingIndex].category = updateInputs.category.value;
-
-
-    const preview = document.getElementById("update_image");
-    entryData[editingIndex].image = preview.src;
-
-
-    editingIndex = null;
-
-
-    renderEntries();
-    showScreen("main");
+function updateEntriesAndShowMainScreen() {
+    updateEntries().then(() => {
+        showScreen("main");
+    });
 }
 
+function getImageData(inputElement) {
+    return new Promise((resolve, reject) => {
+        const file = inputElement.files[0];
+        if (!file) {
+            reject("No file selected");
+            return;
+        }
+        const reader = new FileReader();
+        reader.onload = function (event) {
+            const imageData = event.target.result;
+            resolve(imageData);
+        };
+        reader.onerror = function () {
+            reject("Error reading file");
+        };
+        reader.readAsDataURL(file);
+    });
+}
+
+async function updateEntry() {
+    // check if currentlyEditing is null
+    if (currentlyEditing === null) return;
+
+    // fill body with updated values
+    const body = {
+        title: updateInputs.title.value ? updateInputs.title.value : currentlyEditing.title,
+        description: updateInputs.description.value ? updateInputs.description.value : currentlyEditing.description,
+        street: updateInputs.street.value ? updateInputs.street.value : currentlyEditing.street,
+        postal: updateInputs.postal.value ? updateInputs.postal.value : currentlyEditing.postal,
+        city: updateInputs.city.value ? updateInputs.city.value : currentlyEditing.city,
+        lat: updateInputs.lat.value,
+        lon: updateInputs.lon.value,
+        category: updateInputs.category.value,
+        image: update_preview.src // use the preview image as the new image
+    }
+
+    // send PUT request to update entry
+    new Promise((resolve) => {
+        const httpRequest = new XMLHttpRequest();
+        httpRequest.open("PUT", `${LOCATION_URL}/${currentlyEditing._id}`, true);
+        httpRequest.setRequestHeader("Content-Type", "application/json");
+        httpRequest.onload = function () {
+            if (this.status === 204) {
+                console.log("Entry updated:", this.responseText);
+                updateApiStatus.innerHTML = "";
+                resolve();
+            } else {
+                console.error("Error updating entry:", this.statusText);
+                updateApiStatus.innerHTML = "Error updating entry: " + this.statusText;
+                updateApiStatus.style.color = "#ff5555";
+            }
+        };
+
+        httpRequest.onerror = function () {
+            console.error("Network error");
+            updateApiStatus.innerHTML = "Network error";
+            updateApiStatus.style.color = "#ff5555";
+            reject("Network error");
+        };
+
+        httpRequest.send(JSON.stringify(body));
+    }).then(() => {
+        currentlyEditing = null;
+        updateEntriesAndShowMainScreen();
+    });
+}
+
+function deleteEntry(id) {
+    return new Promise((resolve, reject) => {
+        const httpRequest = new XMLHttpRequest();
+        httpRequest.open("DELETE", `${LOCATION_URL}/${id}`, true);
+
+        httpRequest.onload = function () {
+            if (this.status === 204) {
+                resolve();
+            } else {
+                reject("Failed to delete entry: " + this.statusText);
+            }
+        };
+
+        httpRequest.onerror = function () {
+            reject("Network error");
+        };
+
+        httpRequest.send();
+    });
+}
 
 function updateDelete() {
-    entryData.splice(editingIndex, 1);
-    renderEntries();
-    showScreen("main");
+    if (currentlyEditing === null) return;
+    deleteEntry(currentlyEditing._id);
+    updateEntriesAndShowMainScreen();
 }
 
 addForm.addEventListener("submit", function (event) {
@@ -257,14 +336,53 @@ function addEntry () {
     newEntry.category = addInputs.category.value;
 
 
-    const preview = document.getElementById("add-image");
-    newEntry.image = preview.src;
+    newEntry.image = add_preview.src; // use the preview image as the new image
 
-    entryData.push(newEntry);
+    // post entry to server
+    postEntry(newEntry)
+    .then(response => {
+        console.log("Entry added:", response);
 
+        // clear inputs
+        addInputs.title.value = "";
+        addInputs.description.value = "";
+        addInputs.street.value = "";
+        addInputs.postal.value = "";
+        addInputs.city.value = "";
+        addInputs.lat.value = "";
+        addInputs.lon.value = "";
+        addInputs.category.value = "";
+        add_preview.src = ""; // clear image preview
 
-    renderEntries();
-    showScreen("main");
+        addApiStatus.innerHTML = "";
+    })
+    .catch(error => {
+        console.error("Error adding entry:", error);
+        addApiStatus.innerHTML = "Error adding entry: " + error;
+        addApiStatus.style.color = "#ff5555";
+    });
+
+    updateEntriesAndShowMainScreen();
+}
+
+function postEntry(entry) {
+    return new Promise((resolve, reject) => {
+        const httpRequest = new XMLHttpRequest();
+        httpRequest.open("POST", LOCATION_URL, true);
+        httpRequest.setRequestHeader("Content-Type", "application/json");
+        httpRequest.onload = function () {
+            if (this.status === 201) {
+                const newEntry = this.getResponseHeader("Location");
+                return newEntry
+            } else {
+                reject("Failed to post entry: " + this.statusText);
+            }
+        };
+        httpRequest.onerror = function () {
+            reject("Network error");
+        };
+        httpRequest.send(JSON.stringify(entry));
+    });
 }
 
 
@@ -278,6 +396,42 @@ function showScreen(screenName) {
     }
 }
 
+function updateEntries() {
+    return new Promise((resolve, reject) => {
+        // fetch entries from server
+        fetchEntries().then(entries => {
+            entryData = entries;
+            renderEntries();
+            resolve();
+        }).catch(error => {
+            console.error("Error fetching entries:", error);
+            alert("Error fetching entries: " + error);
+            reject(error);
+        });
+    });
+}
+
+function fetchEntries() {
+    return new Promise((resolve, reject) => {
+        const httpRequest = new XMLHttpRequest();
+        httpRequest.open("GET", LOCATION_URL, true);
+
+        httpRequest.onload = function () {
+            if (this.status === 200) {
+                const entries = JSON.parse(this.responseText);
+                resolve(entries);
+            } else {
+                reject("Failed getting Entries" + this.statusText);
+            }
+        };
+
+        httpRequest.onerror = function () {
+            reject("Network error");
+        };
+
+        httpRequest.send();
+    });
+}
 
 function renderEntries() {
     const container = document.getElementById("entry_container");
@@ -300,7 +454,7 @@ function renderEntries() {
         `;
 
         entryDiv.addEventListener("click", () => {
-            editingIndex = index;
+            currentlyEditing = entry; // set currentlyEditing to the clicked entry
             fillUpdateForm(entry);
             showScreen("update")
         });
@@ -329,6 +483,9 @@ function fillUpdateForm(entry) {
         if (input.id === "update-lat" || input.id === "update-lon" || input.id === "update-city") input.readOnly = true;
     }
 
+    //select element cannot be readonly, so we disable it instead
+    updateInputs.category.disabled = !userIsAdmin;
+
     // show/hide buttons depending on user role
     updateButtons.update.style.display = userIsAdmin ? updateButtons.updateDefaultDisplay : "none";
     updateButtons.delete.style.display = userIsAdmin ? updateButtons.deleteDefaultDisplay : "none";
@@ -337,6 +494,8 @@ function fillUpdateForm(entry) {
     const preview = document.getElementById("update_image");
     preview.src = entry.image || "";
     preview.style.display = entry.image ? "block" : "none";
+
+    updateApiStatus.innerHTML = "";
 }
 
 function getLonLat(street, postal, city) {
@@ -375,7 +534,6 @@ function getLonLat(street, postal, city) {
 }
 
 
-// function delete (item) {}
 function showError() {
     passwordInput.value = "";
     loginError.style.display = "block";

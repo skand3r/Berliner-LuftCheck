@@ -8,20 +8,25 @@ import.meta.dirname;
 
 let app = express();
 
+
+
 // json() - Returns middleware that only parses json 
 // and only looks at requests where the Content-Type 
 // header matches the type option.
-app.use(json());
+// increase payload size limit for uploading images
+app.use(json({
+    limit: '10mb' // increase the limit to 10mb
+}));
 
 /*
  * Setting up the routes
  */
 
 // 1) http://localhost:8000/ shall fetch the index.html 
-// ../public is the directory for the static ressources
+// /public is the directory for the static ressources
 // GET http://localhost:8000/ or GET http://localhost:8000/index.html 
 // returns the index.html in /public
-app.use(expressStatic(join(import.meta.dirname, '../public')));
+app.use(expressStatic(join(import.meta.dirname, '/public')));
 app.use('/login', loginRouter);
 
 // 2) http://localhost:8000/users

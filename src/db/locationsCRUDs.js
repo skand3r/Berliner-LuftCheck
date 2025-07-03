@@ -77,3 +77,18 @@ export const updateLocation = async function (locationId, locationObj) {
         client.close();
     }
 }
+
+export const deleteLocation = async function (locationId) {
+    const client = new MongoClient(uri);
+    try {
+        const database = client.db(db_name);
+        const locations = database.collection(db_collection);
+
+        const response = await locations.deleteOne({ _id: new ObjectId(locationId) });
+
+        return response
+    }
+    finally {
+        client.close();
+    }
+}
